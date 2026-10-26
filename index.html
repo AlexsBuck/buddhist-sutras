@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>佛典文库 — 佛经免费下载（简繁双版本）</title>
+<meta name="description" content="免费佛经 PDF 下载，简体、繁体双版本。经文来源：CBETA 中华电子佛典协会《大正新脩大藏经》，权威可靠，免费流通。">
+<style>
+  :root{
+    --paper:#f5efe3; --paper2:#efe7d6; --card:#fffdf6;
+    --ink:#2e2a25; --ink-soft:#6f675c; --line:#ddd2bd;
+    --cinnabar:#9d3b2f; --gold:#a8874f; --shadow:0 2px 14px rgba(90,74,44,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Noto Serif SC","Noto Serif TC","Songti SC","Songti TC","PMingLiU",serif;
+    background:
+      radial-gradient(1200px 500px at 50% -120px, #fbf7ec 0%, transparent 60%),
+      repeating-linear-gradient(0deg, transparent, transparent 35px, rgba(120,100,60,.025) 36px),
+      var(--paper);
+    color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+  header{position:relative;text-align:center;padding:84px 20px 46px;overflow:hidden}
+  .hero-vert{position:absolute;top:56px;writing-mode:vertical-rl;font-size:15px;letter-spacing:.55em;color:#b7a888;user-select:none}
+  .hero-vert.left{left:max(18px, calc(50% - 520px))}
+  .hero-vert.right{right:max(18px, calc(50% - 520px))}
+  .seal{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;background:var(--cinnabar);color:#fdf8ec;font-size:21px;line-height:1.15;border-radius:7px;transform:rotate(-3deg);box-shadow:0 3px 10px rgba(157,59,47,.35);margin-bottom:22px;padding:6px}
+  h1.site-name{font-size:52px;font-weight:600;letter-spacing:.34em;text-indent:.34em}
+  .tagline{margin-top:14px;color:var(--ink-soft);font-size:16px;letter-spacing:.22em}
+  .tagline b{color:var(--cinnabar);font-weight:600}
+  .rule{display:flex;align-items:center;gap:14px;max-width:420px;margin:30px auto 0;color:var(--gold)}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+  .rule span{font-size:13px;letter-spacing:.4em;text-indent:.4em}
+
+  /* 语言切换 */
+  .lang-switch{
+    position:absolute;top:20px;right:22px;display:flex;border:1px solid var(--line);
+    border-radius:999px;overflow:hidden;background:rgba(255,253,246,.75);z-index:5;
+  }
+  .lang-switch button{
+    font:inherit;font-size:13.5px;letter-spacing:.1em;padding:5px 16px;border:0;background:transparent;
+    color:var(--ink-soft);cursor:pointer;transition:all .16s;
+  }
+  .lang-switch button.on{background:var(--ink);color:#f7f1e3}
+
+  .toolbar{position:sticky;top:0;z-index:20;background:linear-gradient(var(--paper) 78%, transparent);padding:18px 0 10px}
+  .search{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:11px 20px;box-shadow:var(--shadow);max-width:560px;margin:0 auto}
+  .search svg{flex:none;opacity:.55}
+  .search input{border:0;outline:0;background:transparent;font:inherit;font-size:16px;width:100%;color:var(--ink)}
+  .search input::placeholder{color:#a99e8a}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:16px}
+  .chip{font:inherit;font-size:14.5px;letter-spacing:.08em;cursor:pointer;padding:6px 17px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink-soft);transition:all .18s}
+  .chip:hover{border-color:var(--gold);color:var(--ink)}
+  .chip.on{background:var(--ink);border-color:var(--ink);color:#f7f1e3}
+  .count{text-align:center;color:#a99e8a;font-size:13px;margin-top:12px;letter-spacing:.15em}
+
+  main{padding:16px 0 30px}
+  .cat-title{display:flex;align-items:baseline;gap:14px;margin:38px 0 4px}
+  .cat-title h2{font-size:23px;font-weight:600;letter-spacing:.3em}
+  .cat-title small{color:#a99e8a;letter-spacing:.2em;font-size:12.5px}
+  .cat-title::after{content:"";flex:1;height:1px;background:var(--line);align-self:center}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;margin-top:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px 24px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .18s, box-shadow .18s;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--gold),transparent)}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(90,74,44,.13)}
+  .card h3{font-size:21.5px;font-weight:600;letter-spacing:.06em;line-height:1.45}
+  .translator{color:var(--ink-soft);font-size:14px;margin-top:5px}
+  .meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:11px;font-size:12.8px;color:#978a72;letter-spacing:.05em}
+  .meta .tno{color:var(--cinnabar)}
+  .intro{margin-top:11px;font-size:14.8px;color:#554d42;flex:1}
+  .actions{display:flex;gap:8px;margin-top:18px;align-items:center;flex-wrap:wrap}
+  .btn{font:inherit;font-size:14px;letter-spacing:.08em;text-decoration:none;cursor:pointer;padding:8px 15px;border-radius:6px;border:1px solid var(--ink);transition:all .16s;white-space:nowrap}
+  .btn.primary{background:var(--ink);color:#f7f1e3}
+  .btn.primary:hover{background:var(--cinnabar);border-color:var(--cinnabar)}
+  .btn.alt{background:transparent;color:var(--ink);border-color:var(--gold)}
+  .btn.alt:hover{background:var(--gold);color:#fffdf6}
+  .btn.ghost{background:transparent;color:var(--ink-soft);border-color:var(--line)}
+  .btn.ghost:hover{color:var(--ink);border-color:var(--gold)}
+  .btn.disabled{opacity:.45;pointer-events:none}
+  .badge{font-size:12px;color:var(--gold);border:1px solid var(--gold);border-radius:4px;padding:2px 8px;letter-spacing:.15em;margin-left:auto}
+  .empty{display:none;text-align:center;color:#a99e8a;padding:50px 0;letter-spacing:.2em}
+
+  .source{margin:56px 0 0;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:30px 34px}
+  .source h2{font-size:19px;letter-spacing:.3em;margin-bottom:12px}
+  .source p{font-size:14.8px;color:#554d42;margin-top:7px}
+  .source b{color:var(--ink)}
+  footer{text-align:center;padding:44px 20px 54px;color:#a99e8a}
+  footer .verse{font-size:16.5px;letter-spacing:.35em;color:var(--ink-soft)}
+  footer .fine{margin-top:12px;font-size:12.5px;letter-spacing:.12em}
+
+  @media (max-width:640px){
+    h1.site-name{font-size:38px}
+    header{padding:60px 16px 34px}
+    .hero-vert{display:none}
+    .grid{grid-template-columns:1fr}
+    .source{padding:24px 20px}
+    .lang-switch{top:12px;right:12px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="lang-switch" role="group" aria-label="语言切换">
+    <button id="btn-sc" class="on" onclick="setLang('sc')">简体</button>
+    <button id="btn-tc" onclick="setLang('tc')">繁體</button>
+  </div>
+  <div class="hero-vert left" id="vert-l">深入经藏</div>
+  <div class="hero-vert right" id="vert-r">智慧如海</div>
+  <div class="wrap">
+    <div class="seal">佛典</div>
+    <h1 class="site-name" id="site-name">佛典文库</h1>
+    <p class="tagline" id="tagline">佛经 PDF <b>免费下载</b> · 简繁双版 · 流通善本 · 功德无量</p>
+    <div class="rule"><span id="rule-txt">庄严佛土</span></div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap">
+    <label class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6f675c" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="q" type="search" placeholder="搜寻经名、译者…如：心经、玄奘、地藏" autocomplete="off">
+    </label>
+    <div class="chips" id="chips"></div>
+    <p class="count" id="count"></p>
+  </div>
+</div>
+
+<main class="wrap" id="main"></main>
+<p class="empty" id="empty">未找到相符的经典，换个关键词试试。</p>
+
+<div class="wrap">
+  <section class="source">
+    <h2 id="src-h">资料来源与说明</h2>
+    <p id="src-p1"><b>权威来源：</b>本站全部经文取自 <b>CBETA 中华电子佛典协会</b>《大正新脩大藏经》（Taishō Tripiṭaka），每部经均标注大正藏经号与册别，可与原典逐字对照。</p>
+    <p id="src-p2"><b>双版本：</b>每部经均提供繁体原典版与简体版 PDF（简体版由繁体原典转换），界面亦可一键切换简繁，默认简体。</p>
+    <p id="src-p3"><b>免费流通：</b>本站所有 PDF 均可免费下载、打印与分享，仅供个人修学与非商业流通；引用请注明出处「CBETA《大正新脩大藏经》」。</p>
+  </section>
+</div>
+
+<footer>
+  <p class="verse" id="verse">愿以此功德 · 庄严佛净土</p>
+  <p class="fine" id="fine">佛典文库 — 免费佛经下载 · 经文来源 CBETA《大正新脩大藏经》</p>
+</footer>
+
+<script>
+const DATA = [{"id": "xinjing", "tno": "T0251", "title": {"tc": "般若波羅蜜多心經", "sc": "般若波罗蜜多心经"}, "tr": {"tc": "大唐三藏法師玄奘 譯", "sc": "大唐三藏法师玄奘 译"}, "vol": {"tc": "第 8 冊", "sc": "第 8 册"}, "cat": "般若經典", "chars": 485, "pages": 3, "ready": true, "intro": {"tc": "二百六十字攝盡般若精華，是流傳最廣的佛經之一。", "sc": "二百六十字摄尽般若精华，是流传最广的佛经之一。"}}, {"id": "jingangjing", "tno": "T0235", "title": {"tc": "金剛般若波羅蜜經", "sc": "金刚般若波罗蜜经"}, "tr": {"tc": "姚秦三藏法師鳩摩羅什 譯", "sc": "姚秦三藏法师鸠摩罗什 译"}, "vol": {"tc": "第 8 冊", "sc": "第 8 册"}, "cat": "般若經典", "chars": 6489, "pages": 14, "ready": true, "intro": {"tc": "以「應無所住而生其心」點破執著，般若學與禪宗的核心經典。", "sc": "以「应无所住而生其心」点破执著，般若学与禅宗的核心经典。"}}, {"id": "amituojing", "tno": "T0366", "title": {"tc": "佛說阿彌陀經", "sc": "佛说阿弥陀经"}, "tr": {"tc": "姚秦三藏法師鳩摩羅什 譯", "sc": "姚秦三藏法师鸠摩罗什 译"}, "vol": {"tc": "第 12 冊", "sc": "第 12 册"}, "cat": "淨土經典", "chars": 2485, "pages": 5, "ready": true, "intro": {"tc": "淨土宗根本經典之一，描繪極樂世界依正莊嚴，篇幅短、易持誦。", "sc": "净土宗根本经典之一，描绘极乐世界依正庄严，篇幅短、易持诵。"}}, {"id": "wuliangshou", "tno": "T0360", "title": {"tc": "佛說無量壽經", "sc": "佛说无量寿经"}, "tr": {"tc": "曹魏天竺三藏康僧鎧 譯", "sc": "曹魏天竺三藏康僧铠 译"}, "vol": {"tc": "第 12 冊", "sc": "第 12 册"}, "cat": "淨土經典", "chars": 20834, "pages": 35, "ready": true, "intro": {"tc": "詳述阿彌陀佛四十八願與極樂世界緣起，為淨土群經之綱。", "sc": "详述阿弥陀佛四十八愿与极乐世界缘起，为净土群经之纲。"}}, {"id": "guanjing", "tno": "T0365", "title": {"tc": "佛說觀無量壽佛經", "sc": "佛说观无量寿佛经"}, "tr": {"tc": "劉宋西域三藏法師畺良耶舍 譯", "sc": "刘宋西域三藏法师畺良耶舍 译"}, "vol": {"tc": "第 12 冊", "sc": "第 12 册"}, "cat": "淨土經典", "chars": 8934, "pages": 13, "ready": true, "intro": {"tc": "以十六觀次第展開淨土觀想，並開示淨業三福與九品往生。", "sc": "以十六观次第展开净土观想，并开示净业三福与九品往生。"}}, {"id": "pumenpin", "tno": "T0262", "title": {"tc": "觀世音菩薩普門品", "sc": "观世音菩萨普门品"}, "tr": {"tc": "姚秦三藏法師鳩摩羅什 譯《妙法蓮華經》第二十五品", "sc": "姚秦三藏法师鸠摩罗什 译《妙法莲华经》第二十五品"}, "vol": {"tc": "第 9 冊", "sc": "第 9 册"}, "cat": "法華・華嚴", "chars": 2463, "pages": 7, "ready": true, "intro": {"tc": "記觀世音菩薩聞聲救苦、普門示現，是《法華經》中流傳最廣的一品。", "sc": "记观世音菩萨闻声救苦、普门示现，是《法华经》中流传最广的一品。"}}, {"id": "puxianxingyuan", "tno": "T0293", "title": {"tc": "普賢菩薩行願品", "sc": "普贤菩萨行愿品"}, "tr": {"tc": "唐罽賓國三藏般若 譯《大方廣佛華嚴經》入法界品", "sc": "唐罽宾国三藏般若 译《大方广佛华严经》入法界品"}, "vol": {"tc": "第 10 冊", "sc": "第 10 册"}, "cat": "法華・華嚴", "chars": 6373, "pages": 12, "ready": true, "intro": {"tc": "以十大願王導歸極樂，為《華嚴經》之歸宿，行願無盡。", "sc": "以十大愿王导归极乐，为《华严经》之归宿，行愿无尽。"}}, {"id": "dizangjing", "tno": "T0412", "title": {"tc": "地藏菩薩本願經", "sc": "地藏菩萨本愿经"}, "tr": {"tc": "唐于闐國三藏沙門實叉難陀 譯", "sc": "唐于阗国三藏沙门实叉难陀 译"}, "vol": {"tc": "第 13 冊", "sc": "第 13 册"}, "cat": "菩薩本願", "chars": 20896, "pages": 33, "ready": true, "intro": {"tc": "記地藏菩薩本願功德與因果孝親，被譽為佛門孝經。", "sc": "记地藏菩萨本愿功德与因果孝亲，被誉为佛门孝经。"}}, {"id": "yaoshijing", "tno": "T0450", "title": {"tc": "藥師琉璃光如來本願功德經", "sc": "药师琉璃光如来本愿功德经"}, "tr": {"tc": "大唐三藏法師玄奘 譯", "sc": "大唐三藏法师玄奘 译"}, "vol": {"tc": "第 14 冊", "sc": "第 14 册"}, "cat": "菩薩本願", "chars": 5986, "pages": 10, "ready": true, "intro": {"tc": "記藥師如來十二大願，消災延壽、療癒身心。", "sc": "记药师如来十二大愿，消灾延寿、疗愈身心。"}}, {"id": "tanjing", "tno": "T2008", "title": {"tc": "六祖大師法寶壇經", "sc": "六祖大师法宝坛经"}, "tr": {"tc": "唐門人法海 集記", "sc": "唐门人法海 集记"}, "vol": {"tc": "第 48 冊", "sc": "第 48 册"}, "cat": "禪宗典籍", "chars": 32007, "pages": 50, "ready": true, "intro": {"tc": "禪宗六祖惠能的說法記錄，是唯一被稱為「經」的中國僧人著述。", "sc": "禅宗六祖惠能的说法记录，是唯一被称为「经」的中国僧人著述。"}}, {"id": "yijiaojing", "tno": "T1668", "title": {"tc": "佛遺教經", "sc": "佛遗教经"}, "tr": {"tc": "姚秦三藏法師鳩摩羅什 譯", "sc": "姚秦三藏法师鸠摩罗什 译"}, "vol": {"tc": "第 12 冊", "sc": "第 12 册"}, "cat": "入門小經", "chars": null, "pages": null, "ready": false, "intro": {"tc": "佛陀臨涅槃前對弟子的最後教誡，戒定慧修學綱要。", "sc": "佛陀临涅槃前对弟子的最后教诫，戒定慧修学纲要。"}}, {"id": "sishierzhang", "tno": "T0784", "title": {"tc": "佛說四十二章經", "sc": "佛说四十二章经"}, "tr": {"tc": "迦葉摩騰、竺法蘭 共譯（相傳）", "sc": "迦叶摩腾、竺法兰 共译（相传）"}, "vol": {"tc": "第 17 冊", "sc": "第 17 册"}, "cat": "入門小經", "chars": 3167, "pages": 7, "ready": true, "intro": {"tc": "相傳為最早譯出的漢文佛經之一，摘錄佛語四十二章，言簡意深。", "sc": "相传为最早译出的汉文佛经之一，摘录佛语四十二章，言简意深。"}}, {"id": "badarenjue", "tno": "T0779", "title": {"tc": "佛說八大人覺經", "sc": "佛说八大人觉经"}, "tr": {"tc": "後漢沙門安世高 譯", "sc": "后汉沙门安世高 译"}, "vol": {"tc": "第 17 冊", "sc": "第 17 册"}, "cat": "入門小經", "chars": 474, "pages": 3, "ready": true, "intro": {"tc": "以八種覺悟為綱，篇幅極短，適合日常對照修行。", "sc": "以八种觉悟为纲，篇幅极短，适合日常对照修行。"}}];
+const CATS = [
+  {key:"ALL", sc:"全部", tc:"全部"},
+  {key:"般若經典", sc:"般若经典", tc:"般若經典"},
+  {key:"淨土經典", sc:"净土经典", tc:"淨土經典"},
+  {key:"法華・華嚴", sc:"法华・华严", tc:"法華・華嚴"},
+  {key:"菩薩本願", sc:"菩萨本愿", tc:"菩薩本願"},
+  {key:"禪宗典籍", sc:"禅宗典籍", tc:"禪宗典籍"},
+  {key:"入門小經", sc:"入门小经", tc:"入門小經"},
+];
+const STR = {
+  sc: {
+    siteName:"佛典文库",
+    tagline:'佛经 PDF <b>免费下载</b> · 简繁双版 · 流通善本 · 功德无量',
+    rule:"庄严佛土", vertL:"深入经藏", vertR:"智慧如海",
+    placeholder:"搜寻经名、译者…如：心经、玄奘、地藏",
+    taisho:"大正藏", charsFmt:n=>n>=10000?"约 "+(Math.round(n/100)/100)+" 万字":"约 "+n+" 字",
+    pagesFmt:n=>"PDF "+n+" 页",
+    dlTc:"繁体 PDF", dlSc:"简体 PDF", read:"在线阅读", pending:"整理中",
+    countFmt:n=>"共 "+n+" 部经典", unit:"部",
+    empty:"未找到相符的经典，换个关键词试试。",
+    srcH:"资料来源与说明",
+    srcP1:'<b>权威来源：</b>本站全部经文取自 <b>CBETA 中华电子佛典协会</b>《大正新脩大藏经》（Taishō Tripiṭaka），每部经均标注大正藏经号与册别，可与原典逐字对照。',
+    srcP2:'<b>双版本：</b>每部经均提供繁体原典版与简体版 PDF（简体版由繁体原典转换），界面亦可一键切换简繁，默认简体。',
+    srcP3:'<b>免费流通：</b>本站所有 PDF 均可免费下载、打印与分享，仅供个人修学与非商业流通；引用请注明出处「CBETA《大正新脩大藏经》」。',
+    verse:"愿以此功德 · 庄严佛净土",
+    fine:"佛典文库 — 免费佛经下载 · 经文来源 CBETA《大正新脩大藏经》",
+  },
+  tc: {
+    siteName:"佛典文庫",
+    tagline:'佛經 PDF <b>免費下載</b> · 簡繁雙版 · 流通善本 · 功德無量',
+    rule:"莊嚴佛土", vertL:"深入經藏", vertR:"智慧如海",
+    placeholder:"搜尋經名、譯者…如：心經、玄奘、地藏",
+    taisho:"大正藏", charsFmt:n=>n>=10000?"約 "+(Math.round(n/100)/100)+" 萬字":"約 "+n+" 字",
+    pagesFmt:n=>"PDF "+n+" 頁",
+    dlTc:"繁體 PDF", dlSc:"簡體 PDF", read:"在線閱讀", pending:"整理中",
+    countFmt:n=>"共 "+n+" 部經典", unit:"部",
+    empty:"未找到相符的經典，換個關鍵詞試試。",
+    srcH:"資料來源與說明",
+    srcP1:'<b>權威來源：</b>本站全部經文取自 <b>CBETA 中華電子佛典協會</b>《大正新脩大藏經》（Taishō Tripiṭaka），每部經均標註大正藏經號與冊別，可與原典逐字對照。',
+    srcP2:'<b>雙版本：</b>每部經均提供繁體原典版與簡體版 PDF（簡體版由繁體原典轉換），界面亦可一鍵切換簡繁，默認簡體。',
+    srcP3:'<b>免費流通：</b>本站所有 PDF 均可免費下載、列印與分享，僅供個人修學與非商業流通；引用請註明出處「CBETA《大正新脩大藏經》」。',
+    verse:"願以此功德 · 莊嚴佛淨土",
+    fine:"佛典文庫 — 免費佛經下載 · 經文來源 CBETA《大正新脩大藏經》",
+  }
+};
+let lang = localStorage.getItem("fo-lang") || "sc";
+let curCat = "ALL", curQ = "";
+const $ = id => document.getElementById(id);
+const main = $("main"), empty = $("empty"), count = $("count"), chips = $("chips");
+
+function setLang(l){
+  lang = l; localStorage.setItem("fo-lang", l);
+  document.documentElement.lang = l === "sc" ? "zh-Hans" : "zh-Hant";
+  $("btn-sc").classList.toggle("on", l==="sc");
+  $("btn-tc").classList.toggle("on", l==="tc");
+  const S = STR[l];
+  $("site-name").textContent = S.siteName;
+  $("tagline").innerHTML = S.tagline;
+  $("rule-txt").textContent = S.rule;
+  $("vert-l").textContent = S.vertL; $("vert-r").textContent = S.vertR;
+  $("q").placeholder = S.placeholder;
+  $("empty").textContent = S.empty;
+  $("src-h").textContent = S.srcH;
+  $("src-p1").innerHTML = S.srcP1; $("src-p2").innerHTML = S.srcP2; $("src-p3").innerHTML = S.srcP3;
+  $("verse").textContent = S.verse; $("fine").textContent = S.fine;
+  buildChips(); render();
+}
+function buildChips(){
+  chips.innerHTML = "";
+  CATS.forEach(c=>{
+    const b = document.createElement("button");
+    b.className = "chip" + (curCat===c.key ? " on" : "");
+    b.textContent = c[lang];
+    b.onclick = ()=>{ curCat = c.key; buildChips(); render(); };
+    chips.appendChild(b);
+  });
+}
+$("q").addEventListener("input", e=>{ curQ = e.target.value.trim(); render(); });
+
+function card(d){
+  const S = STR[lang];
+  const meta = `<span class="tno">${S.taisho} ${d.tno}</span><span>${d.vol[lang]}</span>`
+    + (d.chars ? `<span>${S.charsFmt(d.chars)}</span>` : "")
+    + (d.pages ? `<span>${S.pagesFmt(d.pages)}</span>` : "");
+  const dl = d.ready
+    ? `<a class="btn primary" href="downloads/${d.id}-tc.pdf" download>${S.dlTc}</a>`
+      + `<a class="btn alt" href="downloads/${d.id}-sc.pdf" download>${S.dlSc}</a>`
+    : `<a class="btn primary disabled">${S.dlTc}</a><a class="btn alt disabled">${S.dlSc}</a>`;
+  const badge = d.ready ? "" : `<span class="badge">${S.pending}</span>`;
+  return `<article class="card"><h3>${d.title[lang]}</h3><p class="translator">${d.tr[lang]}</p>
+    <p class="meta">${meta}</p><p class="intro">${d.intro[lang]}</p>
+    <div class="actions">${dl}<a class="btn ghost" target="_blank" rel="noopener" href="https://cbetaonline.dila.edu.tw/zh/${d.tno}">${S.read}</a>${badge}</div></article>`;
+}
+function render(){
+  const S = STR[lang];
+  const hit = DATA.filter(d =>
+    (curCat==="ALL" || d.cat===curCat) &&
+    (!curQ || (d.title.sc+d.title.tc+d.tr.sc+d.tr.tc+d.tno).includes(curQ)));
+  count.textContent = S.countFmt(hit.length);
+  empty.style.display = hit.length ? "none" : "block";
+  main.innerHTML = CATS.slice(1).map(c=>{
+    const items = hit.filter(d=>d.cat===c.key);
+    if(!items.length) return "";
+    return `<section><div class="cat-title"><h2>${c[lang]}</h2><small>${items.length} ${S.unit}</small></div><div class="grid">${items.map(card).join("")}</div></section>`;
+  }).join("");
+}
+setLang(lang);
+</script>
+</body>
+</html>
